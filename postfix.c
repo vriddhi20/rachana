@@ -1,87 +1,65 @@
 #include<stdio.h>
 #include<ctype.h>
-#define MAXSTACK 100
-#define POSTFIXSIZE 100
-int stack[MAXSTACK];
+#include<stdlib.h>
+#include<math.h>
+char postfix[30],result[30];
 int top=-1;
-void push(int item)
+int stack[30];
+void push(int symbol)
 {
-  if(top>=MAXSTACK-1)
-  {
-    printf("stackover flow");
-    return;
-  }
-  else
-  {
-    top=top+1;
-    stack[top]=item;
-  }
+  stack[++top]=symbol;
 }
 int pop()
 {
-  int item;
-  if(top<0)
-  {
-    printf("stack under flow");
-  }
- else
- {
-   item=stack[top];
-   top=top-1;
-   return item;
-  }
+  int symbol;
+  symbol=stack[top--];
+  return symbol;
 }
-void EvalPostfix(char postfix[])
+int Eval_postfix()
 {
-  int i;
-  char ch;
-  int val;
-  int op1,op2;
-  for(i=0;postfix[i]!=')';i++)
+  int symbol;
+  int i=0,op1,op2;
+  while((symbol=postfix[i++])!='\0')
   {
-    ch=postfix[i];
-    if(isdigit(ch))
+    if(isalnum(symbol))
     {
-      push(ch-'0');
+      push(symbol-'0');
     }
-    else if(ch=='+' || ch=='-' || ch=='*' || ch=='/')
+    else
     {
-      op1=pop();
       op2=pop();
-      switch(ch)
+      op1=pop();
+      switch(symbol)
       {
-        case'*':
-          val=op2*op1;
+        case '+':push(op1+op2);
+        break;
+        case '-':push(op1-op2);
+        break;
+        case '*':push(op1*op2);
+        break;
+        case '/':if(op2!=0)
+        {
+          push(op1/op2);
           break;
-       case '/':
-          val=op2/op1;
-          break;
-       case '+':
-          val=op2+op1;
-          break;
-       case'-':
-          val=op2-op1;
-           break;
+        }
+        else
+        {
+           printf("Illegal expression");
+           exit(0);
+        }
+        case '^':push(pow(op1,op2));
+             break; 
      }
-     push(val);
    }
  }
- printf("\n result of expression evaluation:%d\n",pop());
+ return(pop());
 }
-int main()
+void main()
 {
-  int i;
-  char postfix[POSTFIXSIZE];
-  printf("assumption: there are only four operators(*,/,+,-)in an expression and operand is single digit only.\n");
-  printf("\n enter postfix expression,\npress right parenthesis ')' for end expression:");
-  for(i=0;i<=POSTFIXSIZE-1;i++)
-  {
-    scanf("%c",&postfix[i]);
-    if(postfix[i]==')')
-    {
-      break;
-    }
-  }
-  EvalPostfix(postfix);
-  return 0;
+    int val;
+    printf("\nEnter the postfix expression:");
+    scanf("%s",postfix);
+    val=Eval_postfix();
+    printf("\nEvaluated postfix expression is: %d",val);
 }
+
