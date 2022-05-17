@@ -7,4 +7,3 @@ then
 else
 	cal | tr -d "[\137][\010]" | sed "$l s/$d/*/"
 fi
-
