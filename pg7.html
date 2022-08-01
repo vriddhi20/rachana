@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function p() {
+            
+      var pb=document.getElementById("studpb");
+       pbar=0
+       var comp=document.getElementsByName("stud")
+       for(i=0;i<comp.length;i++)
+       {
+        if(comp[i].validity.valid) {
+            pbar++;
+        }
+       }
+       pb.value=pbar*(100/comp.length);
+        }
+    </script>
+</head>
+<body>
+    <form method="get">
+        <label for="name">First name:</label><br>
+        <input type="text" name="stud"  onchange="p();" required><br>
+
+        <label for="email">email:</label><br>
+        <input type="email" name="stud"  onchange="p();" required><br>
+
+        <label for="dob">dob:</label><br>
+        <input type="date" name="stud"  onchange="p();" required ><br>
+
+        <label for="PhNo">PhNo:</label><br>
+        <input type="pattern" name="stud" onchange="p();" required><br>
+
+        <label for="city">city:</label><br>
+        <input type="text" name="stud"  onchange="p();" required><br>
+
+
+    <progress id="studpb" value="0" max="100"></progress>
+      </form>
+
+</body>
+</html>
