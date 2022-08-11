@@ -252,3 +252,36 @@ mysql> select * from player_phone;
 +------+------------+
 3 rows in set (0.00 sec)
 
+Select PNAME,TNAME,age from player p,team t where p.TID=t.TID and age=(Select min(age) from player);
++-------+--------+------+
+| PNAME | TNAME  | age  |
++-------+--------+------+
+| VIRAT | SACHIN |   23 |
++-------+--------+------+
+1 row in set (0.01 sec)
+
+Select SNAME from stadium where SID=(Select SID from matches group by SID order by count(*) desc limit 1);
++------------+
+| SNAME      |
++------------+
+| chinaswamy |
++------------+
+1 row in set (0.00 sec)
+
+mysql> Select * from stadium where SID =(Select SID from matches group by SID order by count(SID) desc limit 1);
++-----+------------+---------+-----------+--------+
+| SID | SNAME      | PINCODE | CITY      | AREA   |
++-----+------------+---------+-----------+--------+
+| 111 | chinaswamy |  574202 | bangalore | mgroad |
++-----+------------+---------+-----------+--------+
+1 row in set (0.00 sec)
+
+mysql> Select * from player where PID not in(Select captain_id from team) and PID in(Select man_of_match from matches group by man_of_match ha
+ving count(man_of_match)>=2);
++-----+--------+------+------+
+| PID | PNAME  | age  | TID  |
++-----+--------+------+------+
+| 1   | sachin |   33 | T101 |
++-----+--------+------+------+
+1 row in set (0.00 sec)
+
